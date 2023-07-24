@@ -1,0 +1,376 @@
+{
+  "config": {
+    "requester": {
+      "inactive": {
+        "enableonlyfields": [],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [],
+        "enableonlyactions": [],
+        "hideactions": [],
+        "showactions": [],
+        "disableonlyactions": [],
+        "actiontarget": {},
+        "mandatoryfields": {},
+        "comments": {},
+        "nextactors": {}
+      },
+      "draft": {
+        "enableonlyfields": [
+          "*"
+        ],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [
+          "*"
+        ],
+        "enableonlyactions": [
+          "*"
+        ],
+        "hideactions": [],
+        "showactions": [
+          "*"
+        ],
+        "disableonlyactions": [],
+        "actiontarget": {
+          "submit": [
+            {
+              "then": "inactive"
+            }
+          ]
+        },
+        "mandatoryfields": {
+          "submit": []
+        },
+        "comments": {
+          "submit": false
+        },
+        "nextactors": {
+          "inactive": {
+            "serialworkflow": true,
+            "actors": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "sendemail": false,
+            "mailtos": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "mailccs": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "requester",
+                "staticvalue": true
+              }
+            ]
+          }
+        }
+      },
+      "active": {
+        "enableonlyfields": [],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [],
+        "enableonlyactions": [],
+        "hideactions": [],
+        "showactions": [],
+        "disableonlyactions": [],
+        "actiontarget": {},
+        "mandatoryfields": {},
+        "comments": {},
+        "nextactors": {}
+      }
+    },
+    "devadmin": {
+      "inactive": {
+        "enableonlyfields": [
+          "*"
+        ],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [
+          "*"
+        ],
+        "enableonlyactions": [
+          "*"
+        ],
+        "hideactions": [],
+        "showactions": [
+          "*"
+        ],
+        "disableonlyactions": [],
+        "actiontarget": {
+          "approve": [
+            {
+              "then": "active"
+            }
+          ],
+          "reject": [
+            {
+              "then": "draft"
+            }
+          ]
+        },
+        "mandatoryfields": {
+          "approve": [],
+          "reject": []
+        },
+        "comments": {
+          "approve": false,
+          "reject": false
+        },
+        "nextactors": {
+          "draft": {
+            "serialworkflow": true,
+            "actors": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "requester",
+                "staticvalue": true
+              }
+            ],
+            "sendemail": false,
+            "mailtos": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "requester",
+                "staticvalue": true
+              }
+            ],
+            "mailccs": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ]
+          },
+          "active": {
+            "serialworkflow": true,
+            "actors": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "sendemail": false,
+            "mailtos": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "mailccs": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ]
+          }
+        }
+      },
+      "draft": {
+        "enableonlyfields": [
+          "*"
+        ],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [
+          "*"
+        ],
+        "enableonlyactions": [
+          "*"
+        ],
+        "hideactions": [],
+        "showactions": [
+          "*"
+        ],
+        "disableonlyactions": [],
+        "actiontarget": {
+          "submit": [
+            {
+              "then": "inactive"
+            }
+          ]
+        },
+        "mandatoryfields": {
+          "submit": []
+        },
+        "comments": {
+          "submit": false
+        },
+        "nextactors": {
+          "inactive": {
+            "serialworkflow": true,
+            "actors": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "sendemail": false,
+            "mailtos": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "mailccs": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "requester",
+                "staticvalue": true
+              }
+            ]
+          }
+        }
+      },
+      "active": {
+        "enableonlyfields": [],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [],
+        "enableonlyactions": [],
+        "hideactions": [],
+        "showactions": [],
+        "disableonlyactions": [],
+        "actiontarget": {},
+        "mandatoryfields": {},
+        "comments": {},
+        "nextactors": {}
+      }
+    },
+    "admin": {
+      "inactive": {
+        "enableonlyfields": [
+          "*"
+        ],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [
+          "*"
+        ],
+        "enableonlyactions": [
+          "*"
+        ],
+        "hideactions": [],
+        "showactions": [
+          "*"
+        ],
+        "disableonlyactions": [],
+        "actiontarget": {
+          "approve": [
+            {
+              "then": "active"
+            }
+          ],
+          "reject": [
+            {
+              "then": "draft"
+            }
+          ]
+        },
+        "mandatoryfields": {
+          "approve": [],
+          "reject": []
+        },
+        "comments": {
+          "approve": false,
+          "reject": false
+        },
+        "nextactors": {
+          "draft": {
+            "serialworkflow": true,
+            "actors": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "requester",
+                "staticvalue": true
+              }
+            ],
+            "sendemail": false,
+            "mailtos": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "requester",
+                "staticvalue": true
+              }
+            ],
+            "mailccs": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ]
+          },
+          "active": {
+            "serialworkflow": true,
+            "actors": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "sendemail": false,
+            "mailtos": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ],
+            "mailccs": [
+              {
+                "resolutiontype": "APPROLE",
+                "source": "admin",
+                "staticvalue": true
+              }
+            ]
+          }
+        }
+      },
+      "draft": {
+        "enableonlyfields": [],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [],
+        "enableonlyactions": [],
+        "hideactions": [],
+        "showactions": [],
+        "disableonlyactions": [],
+        "actiontarget": {},
+        "mandatoryfields": {},
+        "comments": {},
+        "nextactors": {}
+      },
+      "active": {
+        "enableonlyfields": [],
+        "disableonlyfields": [],
+        "hidefields": [],
+        "showfields": [],
+        "enableonlyactions": [],
+        "hideactions": [],
+        "showactions": [],
+        "disableonlyactions": [],
+        "actiontarget": {},
+        "mandatoryfields": {},
+        "comments": {},
+        "nextactors": {}
+      }
+    }
+  }
+}

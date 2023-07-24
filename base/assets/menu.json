@@ -1,0 +1,78 @@
+{
+  "left" : [ {
+    "pathsInvolved" : [ "/employees/employeesdetail", "/employees/employeeslist", "/employees/blankpage", "/employees/customlistpage" ],
+    "accessControl" : [ "all", "Development Administrator" ],
+    "onClick" : "navigate_to_page",
+    "valueChange" : true,
+    "currentNode" : "menuItem",
+    "label" : "EMPLOYEES",
+    "page" : {
+      "name" : "Employees List",
+      "sid" : "502322a2-e96d-4c09-97ee-7917ec52ca1a",
+      "url" : "/employees/employeeslist"
+    },
+    "element" : "menuItem"
+  }, {
+    "pathsInvolved" : [ "/departments/departmentslist", "/departments/departmentsdetail" ],
+    "accessControl" : [ "all", "Development Administrator" ],
+    "onClick" : "navigate_to_page",
+    "valueChange" : true,
+    "currentNode" : "a21c2f7f-39f4-4614-9474-5d10296f9d6a",
+    "label" : "DEPARTMENTS",
+    "page" : {
+      "name" : "Departments List",
+      "sid" : "4c84bb84-f202-42df-96db-ca7daf44b435",
+      "url" : "/departments/departmentslist"
+    },
+    "element" : "menuItem"
+  }, {
+    "pathsInvolved" : [ "/employees/employeesdetail", "/employees/employeeslist", "/employees/blankpage", "/employees/customlistpage" ],
+    "accessControl" : [ "all", "Development Administrator" ],
+    "onClick" : "navigate_to_page",
+    "valueChange" : true,
+    "currentNode" : "950fb4e9-a0a0-49ec-86c0-ef0936c77fd2",
+    "label" : "BLANK_PAGE",
+    "page" : {
+      "name" : "Blank Page",
+      "sid" : "8004674f-303d-413f-a8d3-84333d0b0bae",
+      "url" : "/employees/blankpage"
+    },
+    "element" : "menuItem"
+  }, {
+    "pathsInvolved" : [ "/employees/employeesdetail", "/employees/employeeslist", "/employees/blankpage", "/employees/customlistpage" ],
+    "accessControl" : [ "all", "Development Administrator" ],
+    "onClick" : "navigate_to_page",
+    "valueChange" : true,
+    "currentNode" : "6a889e1f-e68e-429c-9cc9-74cfb2f2e633",
+    "label" : "CUSTOMLISTPAGE",
+    "page" : {
+      "name" : "CustomListPage",
+      "sid" : "d7b4e757-c447-404a-868e-de28551a6188",
+      "url" : "/employees/customlistpage"
+    },
+    "element" : "menuItem"
+  }, {
+    "pathsInvolved" : [ "/applicationuser/applicationuserdetail", "/applicationuser/applicationuserlist" ],
+    "accessControl" : [ "all", "Development Administrator" ],
+    "onClick" : "navigate_to_page",
+    "label" : "APPLICATION_USER",
+    "page" : {
+      "name" : "Application Users",
+      "sid" : "f4db6943-86ca-42ee-b427-4e2a173b883c",
+      "url" : "/applicationuser/applicationuserlist"
+    },
+    "element" : "menuItem"
+  } ],
+  "topBarLeft" : [ ],
+  "topBarMiddle" : [ ],
+  "topBarRight" : [ {
+    "pathsInvolved" : [ ],
+    "languages" : [ {
+      "code" : "en",
+      "name" : "English"
+    } ],
+    "element" : "language"
+  } ],
+  "right" : [ ],
+  "tabs" : [ ]
+}

@@ -1,0 +1,194 @@
+<div class="list import-history-list">
+    <div id="title-bar">
+        <div class="display">
+            <div class="col" class="page-title-bar" *ngIf="(isMobile && !isSearchFocused) || !isMobile">
+                <!-- <span class="pi pi-arrow-left back-action"></span> -->
+                <span class="page-title" [innerHTML]="pageViewTitle | translate"></span>
+            </div>
+            <div class="w-100" *ngIf="showBreadcrumb">
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <app-action-bar [buttons]="leftActionBarConfig.children" (onBtnClick)='actionBarAction($event)'
+                [style.order]="isMobile?'1':'0'" [isRowSelected]="isRowSelected" [isChildListpage]="isChildPage"
+                [isListPage]="isList" [detailConditionalButtons]="conditionalActions">
+            </app-action-bar>
+            <app-action-bar [buttons]="rightActionBarConfig.children" (onBtnClick)='actionBarAction($event)'
+                [style.order]="isMobile?'1':'0'" [isRowSelected]="isRowSelected" [isChildListpage]="isChildPage"
+                [isListPage]="isList" [detailConditionalButtons]="conditionalActions">
+            </app-action-bar>
+            <div class="p-0" id="search-container" [ngStyle]="{'width':isMobile && isSearchFocused? '100%':'50%' }">
+                <div *ngIf="!isMobile" class="col global-search p-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text show-advanced">
+                                <span class="pi pi-search icon-font"></span>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" pInputText [placeholder]="'Search' | translate"
+                            (keydown)="onKeydown($event)" [(ngModel)]="filter.globalSearch" />
+                        <div class="input-group-append ">
+                            <span class="input-group-text show-advanced cursor-pointer">
+                                <span (click)="toggleAdvancedSearch()" class="advancedsearch-icon" #toggleButton
+                                    *ngIf="tableSearchConfig.showAdvancedSearch">
+                                    <span class="icon-filter">
+                                        <svg class="filter-icon">
+                                            <use xlink:href="../../../../assets/images/filter.svg#filter-button"></use>
+                                        </svg>
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex" *ngIf="isMobile">
+                    <div *ngIf="isMobile" class="search-mobile-container col global-search">
+                        <button class="pi pi-search icon-font search-btn1" (click)="focus()"></button>
+                        <!-- <span>{{isSearchFocused}}</span> -->
+                        <input placeholder='Search' id="mobile-search-icon" class='js-search open' type="text"
+                            (keydown)="onKeydown($event)" [(ngModel)]="filter.globalSearch"
+                            [ngClass]="{'open':isSearchFocused}">
+                        <!-- <span [ngClass]="{'search-close':!isSearchFocused}" class="pi pi-times icon-font " style="right:50px" (click)="clearFilters()"></span> -->
+                    </div>
+                    <div class="input-group-append" *ngIf="!isSearchFocused && tableSearchConfig.showAdvancedSearch">
+                        <span class="input-group-text pi pi-sliders-h icon-font px-3 py-3 cursor-pointer"
+                            (click)="toggleAdvancedSearch()" #toggleButton></span>
+                    </div>
+                    <div class="input-group-append" *ngIf="isSearchFocused">
+                        <span class="input-group-text pi pi-times icon-font px-3 py-3 cursor-pointer"
+                            (click)="clearFilters()"></span>
+                    </div>
+                </div>
+
+                <div class="advanced-search ev-detail-view"
+                    *ngIf="(tableSearchConfig.showAdvancedSearch && showAdvancedSearch)" #menu>
+                    <span class="pr-3 pt-0 adv-search-header" [innerHTML]="'Advanced Search'| translate"></span>
+                    <span style="float:right" class="cursor-pointer"><i class="pi pi-times"
+                            (click)="toggleAdvancedSearch()"></i></span>
+                    <form [formGroup]="tableSearchControls" (ngSubmit)="advancedSearch()" class="ev-form">
+                        <div class="row form-body">
+                            <div class="form-row vg-col-2">
+                                <div class="form-col" [hidden]="hiddenFields.modelName" id="modelName">
+                                    <div class="field-row"
+                                        [ngClass]="{'required': tableSearchFieldConfig?.modelName?.isRequired, 'error':inValidFields.modelName}">
+                                        <label for="modelName" class="col-form-label modelName-label"
+                                            [textContent]=" 'TABLE_NAME'|translate "></label>
+                                        <span class="info-bubble" *ngIf="tableSearchFieldConfig?.modelName?.infoBubble"
+                                            [pTooltip]="tableSearchFieldConfig?.modelName?.infoBubble || ''"><i
+                                                class="fa fa-circle-info"></i></span>
+                                        <input type="text" pInputText class="form-control" formControlName="modelName"
+                                            [placeholder]="tableSearchFieldConfig?.modelName?.placeHolder || ''"
+                                            [maxlength]="tableSearchFieldConfig?.modelName?.maxLength" />
+                                        <div class="fst-italic fs-5 help-text">
+                                            {{tableSearchFieldConfig?.modelName?.helpText || ''}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-col" [hidden]="hiddenFields.templateName" id="templateName">
+                                    <div class="field-row"
+                                        [ngClass]="{'required': tableSearchFieldConfig?.templateName?.isRequired, 'error':inValidFields.templateName}">
+                                        <label for="templateName" class="col-form-label templateName-label"
+                                            [textContent]=" 'TEMPLATE_NAME'|translate "></label>
+                                        <span class="info-bubble" *ngIf="tableSearchFieldConfig?.templateName?.infoBubble"
+                                            [pTooltip]="tableSearchFieldConfig?.templateName?.infoBubble || ''"><i
+                                                class="fa fa-circle-info"></i></span>
+                                        <input type="text" pInputText class="form-control" formControlName="templateName"
+                                            [placeholder]="tableSearchFieldConfig?.templateName?.placeHolder || ''"
+                                            [maxlength]="tableSearchFieldConfig?.templateName?.maxLength" />
+                                        <div class="fst-italic fs-5 help-text">
+                                            {{tableSearchFieldConfig?.templateName?.helpText || ''}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-col" [hidden]="hiddenFields.createdDate" id="createdDate">
+                                    <div class="field-row"
+                                        [ngClass]="{'required': tableSearchFieldConfig?.createdDate?.isRequired, 'error':inValidFields.createdDate}">
+                                        <label for="createdDate"
+                                            class="col-form-label dateTime-label createdDate-label"
+                                            [textContent]="'INITIATED_TIME'|translate"></label>
+                                        <span class="info-bubble"
+                                            *ngIf="tableSearchFieldConfig?.createdDate?.infoBubble"
+                                            [pTooltip]="tableSearchFieldConfig?.createdDate?.infoBubble || ''"><i
+                                                class="fa fa-circle-info"></i></span>
+                                        <p-calendar showButtonBar="true" class="form-input w-100"
+                                            formControlName="createdDate" [showIcon]="true"
+                                            inputId="datetimerangepicker" [showTime]="true" selectionMode="range"
+                                            [minDate]="tableSearchFieldConfig?.createdDate?.calendarMinDate"
+                                            [maxDate]="tableSearchFieldConfig?.createdDate?.calendarMaxDate"
+                                            appendTo="body"
+                                            [placeholder]="tableSearchFieldConfig?.createdDate?.placeHolder || ''"
+                                            [dateFormat]="dateFormat"></p-calendar>
+                                        <div class="fst-italic fs-5 help-text">
+                                            {{tableSearchFieldConfig?.createdDate?.helpText || ''}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-col" [hidden]="hiddenFields.createdBy" id="createdBy">
+                                    <div class="field-row"
+                                        [ngClass]="{'required': tableSearchFieldConfig?.createdBy?.isRequired, 'error':inValidFields.createdBy}">
+                                        <label for="createdBy" class="col-form-label createdBy-label"
+                                            [textContent]=" 'INITIATED_BY'|translate "></label>
+                                        <span class="info-bubble"
+                                            *ngIf="tableSearchFieldConfig?.createdBy?.infoBubble"
+                                            [pTooltip]="tableSearchFieldConfig?.createdBy?.infoBubble || ''"><i
+                                                class="fa fa-circle-info"></i></span>
+                                        <input type="text" pInputText class="form-control" formControlName="createdBy"
+                                            [placeholder]="tableSearchFieldConfig?.createdBy?.placeHolder || ''"
+                                            [maxlength]="tableSearchFieldConfig?.createdBy?.maxLength" />
+                                        <div class="fst-italic fs-5 help-text">
+                                            {{tableSearchFieldConfig?.createdBy?.helpText || ''}}</div>
+                                    </div>
+                                </div>
+                                <div class="form-col" [hidden]="hiddenFields.importStatus" id="importStatus">
+                                    <div class="field-row"
+                                        [ngClass]="{'required': tableSearchFieldConfig?.importStatus?.isRequired, 'error':inValidFields.importStatus}">
+                                        <label for="importStatus" class="col-form-label importStatus-label"
+                                            [textContent]=" 'STATUS'|translate "></label>
+                                        <span class="info-bubble" *ngIf="tableSearchFieldConfig?.importStatus?.infoBubble"
+                                            [pTooltip]="tableSearchFieldConfig?.importStatus?.infoBubble || ''"><i
+                                                class="fa fa-circle-info"></i></span>
+                                        <input type="text" pInputText class="form-control" formControlName="importStatus"
+                                            [placeholder]="tableSearchFieldConfig?.importStatus?.placeHolder || ''"
+                                            [maxlength]="tableSearchFieldConfig?.importStatus?.maxLength" />
+                                        <div class="fst-italic fs-5 help-text">
+                                            {{tableSearchFieldConfig?.importStatus?.helpText || ''}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search-actions">
+                            <div>
+                                <button type="button" class="btn btn-secondary search-btn"
+                                    (click)="clearFilterValues()">Clear
+                                    Filter</button>
+                            </div>
+                            <div>
+                                <div class="btn-group mr-0" role="group">
+                                    <button type="button" class="btn btn-secondary search-btn"
+                                        (click)="toggleAdvancedSearch()">Cancel</button>
+                                    <button type="submit"
+                                        class="btn btn-primary search-btn search-btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-grid [gridConfig]="gridConfig" *ngIf="gridConfig"
+        [ngClass]="this.tableConfig.viewAs === 'card' ? 'gridsterList' : ''" class="{{tableConfig.tableStyle}}">
+    </app-grid>
+
+</div>
+
+<p-dialog header="Import Error Details" [(visible)]="displayErrorDet" [modal]="true"
+    [style]="{width: '60vw', height:'40vw', 'font-family': 'Poppins'}" [draggable]="false" [resizable]="false"
+    class="ev-detail-view" (onHide)="onDetailClosed()">
+    <app-import-error-details [errId]="this.errId" [detPopupOpen]="detPopupOpen"></app-import-error-details>
+</p-dialog>
+
+<p-dialog header="Add Import" [(visible)]="displayImport" [modal]="true"
+    [style]="{width: '45vw', height:'40vw', 'font-family': 'Poppins'}" [draggable]="false" [resizable]="false"
+    class="ev-detail-view import-dialog-box" (onHide)="onClose()">
+    <app-import-page [fromListPage]="false" [popupOpen]="popupOpen" (onAfterImportInitiate)="onImportSucess()" ></app-import-page>
+</p-dialog>

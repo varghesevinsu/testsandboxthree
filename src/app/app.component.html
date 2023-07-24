@@ -1,0 +1,16 @@
+<!--div style="display: none;" *ngIf="isPrototype">
+    <iframe [src]="safeSrc" width="0" height="0" width="0" height="0" frameborder="0" style="visibility: hidden;"></iframe>
+</div-->
+<router-outlet></router-outlet>
+<p-toast [baseZIndex]="5000" life="5000"  position="top-center" styleClass="notify-toast">
+    <ng-template let-message pTemplate="message">
+            <div class="message-wrap">
+            <span class="notify-message" [innerHtml]="message.detail"> </span>
+            </div>
+    </ng-template>
+</p-toast>
+
+<p-messages styleClass="errorMsg" [(value)]="msgs" [enableService]="false"></p-messages>
+<p-blockUI  [blocked]="blocked">
+    <p-progressSpinner></p-progressSpinner>
+</p-blockUI>

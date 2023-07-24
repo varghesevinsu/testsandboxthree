@@ -1,0 +1,182 @@
+<div class="app-header header-shadow" id="header-container" >
+    <div class="vg-app-header__element left app-header-inner" id="left-container"
+        [style.width]="(rightMenu?.element === 'rightMenu' && rightMenu?.children?.length > 0 && isMobile)?'70%':''">
+        <div class="vg-app-header__element_item" *ngFor="let item of headerElements.left">
+            <ng-container *ngTemplateOutlet="headerElement; context: { item: item }"></ng-container>
+        </div>
+    </div>
+
+    <div class="app-header__content" [ngStyle]="appHeaderContentFloat ? {'visibility': 'visible', 'opacity': '1'} : {}"
+        *ngIf="displayMenus">
+        <div class="vg-app-header__element middle d-flex justify-content-between" id="middle-container">
+            <div class="vg-middle-header-container" *ngFor="let midElements of headerElements.middle">
+                <div class="vg-app-header__element_item left" *ngIf="midElements.element ==='leftPane'">
+                    <div class="mid-element-container" *ngFor="let item of midElements.children">
+                        <ng-container *ngTemplateOutlet="headerElement; context: { item: item }"></ng-container>
+                    </div>
+                </div>
+                <div class="vg-app-header__element_item center" *ngIf="midElements.element ==='middlePane'">
+                    <div class="mid-element-container" *ngFor="let item of midElements.children">
+                        <ng-container *ngTemplateOutlet="headerElement; context: { item: item }"></ng-container>
+                    </div>
+                </div>
+                <div class="vg-app-header__element_item right" *ngIf="midElements.element ==='rightPane'">
+                    <div class="mid-element-container" *ngFor="let item of midElements.children">
+                        <ng-container *ngTemplateOutlet="headerElement; context: { item: item }"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="vg-app-header__element right" id="right-container">
+            <div class="vg-app-header__element_item" *ngFor="let item of headerElements.right">
+
+                <ng-container *ngTemplateOutlet="headerElement; context: { item: item }"></ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-header__menu d-block d-lg-none"
+        [ngClass]="{'pr-0':rightMenu?.element === 'rightMenu' && rightMenu?.children?.length > 0}" *ngIf="displayMenus && isMiddleMenuNotEmpty">
+        <span>
+            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav"
+                (click)="appHeaderContentFloat = !appHeaderContentFloat">
+                <span class="btn-icon-wrapper">
+                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                </span>
+            </button>
+        </span>
+    </div>
+
+    <div class="app-header-right app-header-inner"
+        *ngIf="rightMenu?.element === 'rightMenu' && rightMenu?.children?.length > 0 && displayMenus">
+        <div class="top-bar-item hamburger-container">
+            <span (click)="showMenu('right')" class="cursor-pointer">
+                <img [src]="hamburgerMenuRight" *ngIf="rightMenu?.menuIcon?.type != 'icon'"
+                    [ngStyle]="bs.getStyles(item)" alt="Menu" />
+                <i class="fa {{rightMenu?.menuIcon?.icon?.value}}" *ngIf="rightMenu?.menuIcon?.type == 'icon'"
+                    [style.color]="rightMenu?.menuIcon?.iconColor"
+                    [style.font-size]="rightMenu?.menuIcon?.iconSize"></i>
+            </span>
+        </div>
+    </div>
+</div>
+
+<ng-template #headerElement let-item="item">
+    <div class="top-bar-item hamburger-container d-flex justify-content-center menu-header"
+        *ngIf="item.element === 'leftMenu' && item.children?.length > 0 && displayMenus" [id]="item.label">
+        <span (click)="showMenu('left')" class="cursor-pointer">
+            <img [src]="hamburgerMenu" *ngIf="item?.icon?.type != 'icon'" [ngStyle]="bs.getStyles(item)" alt="Menu" />
+            <i class="fa {{item?.icon?.icon?.value}}" *ngIf="item?.icon?.type == 'icon'"
+                [style.color]="item?.icon?.iconColor" [style.font-size]="item?.icon?.iconSize"></i>
+        </span>
+    </div>
+
+    <div class="top-bar-item pl-3 pr-3" *ngIf="item.element === 'logo' && ( (isMenuFixed && this.displayLeftMenu === true)  || !isMenuFixed) " [ngClass]="{'logo-container':isMenuFixed}">
+        <img [src]="logo" class="logo d-none d-md-block cursor-pointer" [ngStyle]="bs.getStyles(item)" alt="Logo" (click)="navigateToHomePage()"/>
+        <img src="{{mobileLogo ? mobileLogo:logo}}" class="logo d-block d-md-none cursor-pointer" [ngStyle]="bs.getStyles(item)"
+            alt="Mobile logo" (click)="navigateToHomePage()" />
+    </div>
+
+    <div class="top-bar-item pl-3 pr-3" *ngIf="item.element === 'appTitle'" [id]="item.label">
+        <label class="app-title d-none d-md-block" [ngStyle]="bs.getStyles(item)"
+            [textContent]="item.title | translate"></label>
+        <label class="app-title d-block d-md-none" [ngStyle]="bs.getStyles(item)"
+            [textContent]="item.mobileTitle ? (item.mobileTitle | translate): (item.title | translate)"></label>
+    </div>
+
+    <div class="top-bar-item" *ngIf="item.element === 'menuItem'" [id]="item.label">
+        <ul class="header-menu nav">
+            <li class="nav-item">
+                <a [attr.href]="(item.children) ? null : item?.page?.url ? utilBase.getPageUrl(item?.page?.url) : ((item?.link || item?.url) ? (item?.link || item?.url) : null)"
+                    [attr.target]="(item.children) ? null : item?.page?.url ? null : ( (item?.link || item?.url) ? '_blank' : null)"
+                    class="nav-link" *ngIf="(item.link || item.page?.url) && !item.children">
+                    <i class="nav-link-icon  opacity-8" *ngIf="item.icon"
+                        ngClass="fa {{ item?.icon?.icon?.label }}"></i>
+                    <div *ngIf="item.label" class="nav-link-label" [textContent]="item.label | translate"></div>
+                </a>
+                <div class="dropdown" *ngIf="item.children?.length > 0">
+                    <a class="nav-link" href="#" id="navbarDropdownMenuLink1" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <span><i class="nav-link-icon opacity-8" *ngIf="item.icon"
+                                ngClass="fa {{ item?.icon?.icon?.label }}"></i></span>
+                        <div *ngIf="item.label" class="nav-link-label d-flex justify-content-center flex-column"
+                            [textContent]="item.label | translate"></div>
+                    </a>
+                    <ul class="dropdown-menu mobile-menu " aria-labelledby="navbarDropdownMenuLink1"
+                        *ngIf="item.children">
+                        <li *ngFor="let menu of item.children">
+                            <span *ngIf="menu.link || menu.page?.url">
+                                <a class="ml-2 p-2 d-block topbarDropdownItem"
+                                    [attr.href]="(menu.children) ? null : menu?.page?.url ? utilBase.getPageUrl(menu?.page?.url) : ((menu?.link || menu?.url) ? (menu?.link || menu?.url) : null)"
+                                    [attr.target]="(menu.children) ? null : menu?.page?.url ? null : ( (menu?.link || menu?.url) ? '_blank' : null)">
+                                    <i class="nav-link-icon opacity-8" *ngIf="menu?.icon?.icon"
+                                        ngClass="fa {{ menu?.icon?.icon?.label }}"></i>
+                                    <span class="nav-link-label" [textContent]="menu.label | translate"></span>
+                                </a>
+                            </span>
+                            <span class="ml-2 p-2 d-block topbarDropdownItem" *ngIf="!menu.link && !menu.page?.url"
+                                [textContent]="menu.label | translate"><span
+                                    [textContent]="menu.children ?' &raquo;':''"></span></span>
+                            <ul class=" dropdown-menu dropdown-submenu" *ngIf="menu.children">
+                                <li *ngFor="let subMenu of menu.children">
+                                    <a class="ml-2 p-2 d-block topbarDropdownItem"
+                                        [attr.href]="(subMenu.children) ? null : subMenu?.page?.url ? utilBase.getPageUrl(subMenu?.page?.url) : ((subMenu?.link || subMenu?.url) ? (subMenu?.link || subMenu?.url) : null)"
+                                        [attr.target]="(subMenu.children) ? null : subMenu?.page?.url ? null : ( (subMenu?.link || subMenu?.url) ? '_blank' : null)">
+                                        <i class="nav-link-icon  opacity-8"
+                                            ngClass="fa {{ subMenu?.icon?.icon?.label }}"></i>
+                                        <span class="nav-link-label"
+                                            [textContent]="subMenu.label | translate"></span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="top-bar-item language-container" *ngIf="item.element ==='language'" [id]="item.label">
+        <p-dropdown [options]="item.languages" appendTo="body" [(ngModel)]="selectedLang" optionLabel="name"
+            (onChange)="onLanguageSwitch(selectedLang)"></p-dropdown>
+    </div>
+
+    <div class="top-bar-item" *ngIf="item.element === 'user' && item.children?.length" [ngStyle]="bs.getStyles(item)">
+        <div class="pl-2 pr-0">
+            <div class="widget-content p-0">
+                <div class="widget-content-wrapper">
+                    <div class="btn-group dropdown">
+                        <a id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false" class="px-0 py-2 btn avatar">
+                            <!-- <span *ngIf="item.image">
+                                <p-avatar image="{{item.image}}" [shape]="item.shape" [size]="item.size">
+                                </p-avatar>
+                            </span> -->
+                            <!-- <span>
+                                <i class="ml-3 mr-2 opacity-8 user-icon" ngClass="{{ item.optionsIcon }}"></i>
+                            </span> -->
+                            <!-- <span>
+                                <i class="ml-3 mr-2 opacity-8 user-icon"></i>
+                            </span>
+                            <span *ngIf="!item.image && item.userFields">
+                                <p-avatar label="{{(item.userFields[0]).charAt(0) || 'U'}} " shape="circle"
+                                    size="large"></p-avatar>
+                            </span> -->
+                            <p-avatar icon="pi pi-user" shape="circle" size="large"></p-avatar>
+                        </a>
+
+                        <ul class="dropdown-menu mobile-menu" *ngIf="item.children"
+                            aria-labelledby="navbarDropdownMenuLink">
+                            
+                            <a href="{{ dd.link }}" class="ml-2 p-2 d-block topbarDropdownItem user-drop-down-label"
+                                *ngFor="let dd of item.children" [textContent]="dd.label | translate"></a>
+                        </ul>
+                    </div>
+                    <!-- <div class="widget-content-left ml-3 user-widget-label" *ngIf="item.userFields">
+                        <div class="widget-heading text-ellipsis" [textContent]="item.userFields[0] | translate"></div>
+                        <div class="widget-subheading text-ellipsis"[textContent]="item.userFields[1] | translate"></div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,16 @@
+<div class="app-container app-theme-white h-100 w-100" id="layout-container">
+    <app-header [displayMenus]="true"></app-header>
+    <div class="d-flex w-100 layout-middle">
+        <div [style.right]="(!isMobile && fixedItems?.element == 'rightMenu') ? '0' : ''" class="sidebar">
+            <app-side-bar></app-side-bar>
+        </div>
+        <div class="pl-4 pr-4 main-content" id="main-container"
+            [ngClass]="{'app-main-inner-w':(fixedItems?.menuType == 'fixed' && fixedItems?.children?.length > 0 && ((fixedMenuType == 'left') ? displayLeftMenu : displayRightMenu) && !isMobile),'app-main-inner-w-shrink':(fixedItems?.menuType == 'fixed' && fixedItems?.children?.length > 0  && ((fixedMenuType == 'left') ? !displayLeftMenu : !displayRightMenu) && !isMobile)}"
+            [style.right]="(!isMobile && fixedItems?.element !== 'rightMenu') ? '0' : ''">
+            <p-confirmDialog position="center" header="Confirmation"></p-confirmDialog>
+            <app-loader></app-loader>
+            <app-tabs></app-tabs>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
